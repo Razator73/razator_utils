@@ -3,7 +3,7 @@
 """Tests for `razator_utils` package."""
 from pathlib import Path
 
-from razator_utils import *
+from razator_utils import batchify, camel_to_snake, log
 
 
 def test_camel_to_snake():
