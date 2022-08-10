@@ -26,7 +26,9 @@ A pypi package for personal use. Containing common functions I use.
 Features
 --------
 
-* TODO
+* Easy logging functions
+* ``batchify`` - function to easily group iterables
+* ``camel_to_snake`` - function to convert camelCase to snake_case
 
 Credits
 -------

@@ -6,3 +6,6 @@ History
 ------------------
 
 * First release on PyPI.
+* Has easy log functions
+* ``batchify`` function
+* ``camel_to_snake`` function
