@@ -26,8 +26,12 @@ parsed_test_requirements = parse_requirements(
     session='workaround'
 )
 
-requirements = [str(ir.requirement) for ir in parsed_requirements]
-test_requirements = [str(tr.requirement) for tr in parsed_test_requirements]
+try:
+    requirements = [str(ir.requirement) for ir in parsed_requirements]
+    test_requirements = [str(tr.requirement) for tr in parsed_test_requirements]
+except AttributeError:
+    requirements = [str(ir.req) for ir in parsed_requirements]
+    test_requirements = [str(tr.req) for tr in parsed_test_requirements]
 
 setup(
     author="Ryan Scott",
@@ -42,6 +46,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     description="A pypi package for personal use. Containing common functions I use.",
     install_requires=requirements,
