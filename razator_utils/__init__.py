@@ -4,7 +4,7 @@ __author__ = """Ryan Scott"""
 __email__ = 'ryan.t.scott73@gmail.com'
 __version__ = '0.1.3'
 
-from razator_utils.razator_utils import batchify, camel_to_snake
+from razator_utils.razator_utils import batchify, camel_to_snake, flatten_dict
 from razator_utils import log
 
-__all__ = ['batchify', 'camel_to_snake', 'log']
+__all__ = ['batchify', 'camel_to_snake', 'log', 'flatten_dict']

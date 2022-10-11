@@ -3,7 +3,9 @@
 """Tests for `razator_utils` package."""
 from pathlib import Path
 
-from razator_utils import batchify, camel_to_snake, log
+import pytest
+
+from razator_utils import batchify, camel_to_snake, log, flatten_dict
 
 
 def test_camel_to_snake():
@@ -25,3 +27,29 @@ def test_stout_log():
     file_logger.warning('This is a warning')
     assert log_file.exists()
     log_file.unlink()
+
+
+@pytest.mark.parametrize('test_data,expected', [
+    ({}, {}),
+    ({'not_nested': 'dictionary'}, {'not_nested': 'dictionary'}),
+    ({'single': {'nested': 'dict'}}, {'single_nested': 'dict'}),
+    (
+        {'single': {'nested': 'dict'}, 'multiple': {'key1': 'val1', 'key2': 'val2'}},
+        {'single_nested': 'dict', 'multiple_key1': 'val1', 'multiple_key2': 'val2'}
+     ),
+    (
+        {'single': {'nested': 'dict'}, 'multiple': {'dict1': {'key1': 'val1'}, 'key2': 'val2'}},
+        {'single_nested': 'dict', 'multiple_dict1_key1': 'val1', 'multiple_key2': 'val2'}
+    ),
+    (
+        {'triple': {'nested': {'dictionary': 'val'}}},
+        {'triple_nested_dictionary': 'val'}
+    ),
+    (({'single': {'nested': 'dict'}}, '', '.'), {'single.nested': 'dict'}),
+    (({'single': {'nested': 'dict'}}, 'flat', '.'), {'flat.single.nested': 'dict'}),
+])
+def test_flatten_dict(test_data, expected):
+    if isinstance(test_data, tuple):
+        pass
+    else:
+        assert flatten_dict(test_data) == expected

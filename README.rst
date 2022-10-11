@@ -29,6 +29,7 @@ Features
 * Easy logging functions
 * ``batchify`` - function to easily group iterables
 * ``camel_to_snake`` - function to convert camelCase to snake_case
+* ``flatten_dict`` - take a nested dictionary and make it a single level dictionary
 
 Credits
 -------
