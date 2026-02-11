@@ -88,3 +88,30 @@ def test_get_chrome_major_version():
 
         version = get_chrome_major_version()
         assert version is None
+
+
+def test_discord_message():
+    from razator_utils.razator_utils import discord_message
+    from unittest.mock import patch
+    import pytest
+
+    webhook_url = "https://discord.com/api/webhooks/1234567890/TOKEN"
+    text = "Hello, Discord!"
+
+    # Test success
+    with patch('requests.post') as mock_post:
+        mock_post.return_value.status_code = 204
+
+        discord_message(webhook_url, text)
+
+        mock_post.assert_called_once_with(webhook_url, json={"content": text})
+
+    # Test failure
+    with patch('requests.post') as mock_post:
+        import requests
+        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError("400 Client Error")
+
+        with pytest.raises(Exception) as excinfo:
+            discord_message(webhook_url, text)
+
+        assert "Failed to send Discord message" in str(excinfo.value)

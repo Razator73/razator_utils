@@ -76,3 +76,25 @@ def get_chrome_major_version():
         print(f"Could not detect Chrome version: {e}")
 
     return None
+
+
+def discord_message(webhook_url, text):
+    """
+    Sends a message to a Discord webhook.
+
+    Args:
+        webhook_url (str): The URL of the Discord webhook.
+        text (str): The message content to send.
+
+    Raises:
+        Exception: If the request fails.
+    """
+    import requests
+
+    payload = {"content": text}
+    response = requests.post(webhook_url, json=payload)
+
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        raise Exception(f"Failed to send Discord message: {err}")
