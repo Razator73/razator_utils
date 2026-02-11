@@ -53,3 +53,38 @@ def test_flatten_dict(test_data, expected):
         pass
     else:
         assert flatten_dict(test_data) == expected
+
+
+def test_get_chrome_major_version():
+    from razator_utils.razator_utils import get_chrome_major_version
+    from unittest.mock import patch
+
+    # Test success case
+    with patch('shutil.which') as mock_which, \
+         patch('subprocess.check_output') as mock_subprocess:
+
+        mock_which.side_effect = lambda x: '/usr/bin/google-chrome' if x == 'google-chrome' else None
+        mock_subprocess.return_value = b'Google Chrome 120.0.6099.109'
+
+        version = get_chrome_major_version()
+        assert version == 120
+
+    # Test binary not implemented found
+    with patch('shutil.which') as mock_which, \
+         patch('platform.system') as mock_system:
+
+        mock_which.return_value = None
+        mock_system.return_value = 'Linux'
+
+        version = get_chrome_major_version()
+        assert version is None
+
+    # Test subprocess error
+    with patch('shutil.which') as mock_which, \
+         patch('subprocess.check_output') as mock_subprocess:
+
+        mock_which.return_value = '/usr/bin/google-chrome'
+        mock_subprocess.side_effect = Exception("Command failed")
+
+        version = get_chrome_major_version()
+        assert version is None

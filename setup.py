@@ -3,11 +3,11 @@
 
 from setuptools import setup, find_packages
 
-try: # for pip >= 10
-    # noinspection PyProtectedMember
-    from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
-    from pip.req import parse_requirements
+def parse_requirements(filename):
+    """Load requirements from a pip requirements file."""
+    lineiter = (line.strip() for line in open(filename))
+    return [line for line in lineiter if line and not line.startswith("#") and not line.startswith("-r")]
+
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -15,39 +15,26 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-## workaround derived from: https://github.com/pypa/pip/issues/7645#issuecomment-578210649
-parsed_requirements = parse_requirements(
-    'requirements/prod.txt',
-    session='workaround'
-)
-
-parsed_test_requirements = parse_requirements(
-    'requirements/test.txt',
-    session='workaround'
-)
-
-try:
-    requirements = [str(ir.requirement) for ir in parsed_requirements]
-    test_requirements = [str(tr.requirement) for tr in parsed_test_requirements]
-except AttributeError:
-    requirements = [str(ir.req) for ir in parsed_requirements]
-    test_requirements = [str(tr.req) for tr in parsed_test_requirements]
+requirements = parse_requirements('requirements/prod.txt')
+test_requirements = parse_requirements('requirements/test.txt')
 
 setup(
     author="Ryan Scott",
     author_email='ryan.t.scott73@gmail.com',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
     ],
     description="A pypi package for personal use. Containing common functions I use.",
     install_requires=requirements,
