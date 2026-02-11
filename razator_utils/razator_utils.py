@@ -2,6 +2,7 @@
 import subprocess
 import shutil
 import re
+import requests
 
 
 def batchify(iterable, n=1):
@@ -89,7 +90,6 @@ def discord_message(webhook_url, text):
     Raises:
         Exception: If the request fails.
     """
-    import requests
 
     payload = {"content": text}
     response = requests.post(webhook_url, json=payload)
