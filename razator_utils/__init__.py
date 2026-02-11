@@ -2,9 +2,15 @@
 
 __author__ = """Ryan Scott"""
 __email__ = 'ryan.t.scott73@gmail.com'
-__version__ = '0.3.1'
+__version__ = '0.4.0'
 
-from razator_utils.razator_utils import batchify, camel_to_snake, flatten_dict, get_chrome_major_version
+from razator_utils.razator_utils import (
+    batchify,
+    camel_to_snake,
+    flatten_dict,
+    get_chrome_major_version,
+    discord_message,
+)
 from razator_utils import log
 
-__all__ = ['batchify', 'camel_to_snake', 'log', 'flatten_dict', 'get_chrome_major_version']
+__all__ = ['batchify', 'camel_to_snake', 'log', 'flatten_dict', 'get_chrome_major_version', 'discord_message']
