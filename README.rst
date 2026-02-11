@@ -30,6 +30,8 @@ Features
 * ``batchify`` - function to easily group iterables
 * ``camel_to_snake`` - function to convert camelCase to snake_case
 * ``flatten_dict`` - take a nested dictionary and make it a single level dictionary
+* ``get_chrome_major_version`` - get the major version of the installed chrome browser
+* ``discord_message`` - send a message to a discord webhook
 
 Credits
 -------
