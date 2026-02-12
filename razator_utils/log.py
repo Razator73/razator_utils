@@ -47,3 +47,12 @@ def get_file_logger(name, log_file_path, level=logging.WARNING, max_bytes=LOG_FI
     handler = RotatingFileHandler(log_file_path, maxBytes=max_bytes, backupCount=backup_count)
     handler.setFormatter(__get_log_formatter__())
     return __add_handler__(name, handler, level)
+
+
+def cli_or_file_logger(script_name, verbose=True, log_path=None, level=logging.WARNING):
+    if verbose:
+        return get_stout_logger(script_name, level)
+    else:
+        log_path = log_path or Path.home() / 'logs' / f'{script_name}.log'
+        log_file.parent.mkdir(exist_ok=True)
+        return get_file_logger(script_name, log_path, level)
