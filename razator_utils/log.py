@@ -54,5 +54,5 @@ def cli_or_file_logger(script_name, verbose=True, log_path=None, level=logging.W
         return get_stout_logger(script_name, level)
     else:
         log_path = log_path or Path.home() / 'logs' / f'{script_name}.log'
-        log_file.parent.mkdir(exist_ok=True)
+        log_path.parent.mkdir(exist_ok=True, parents=True)
         return get_file_logger(script_name, log_path, level)

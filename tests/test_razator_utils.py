@@ -115,3 +115,23 @@ def test_discord_message():
             discord_message(webhook_url, text)
 
         assert "Failed to send Discord message" in str(excinfo.value)
+
+
+def test_cli_or_file_logger():
+    # Test CLI (verbose=True)
+    logger = log.cli_or_file_logger('test_cli', verbose=True)
+    assert logger.name == 'test_cli'
+    assert len(logger.handlers) > 0
+    assert any(isinstance(h, log.logging.StreamHandler) for h in logger.handlers)
+
+    # Test File (verbose=False)
+    test_log = Path('test_file_logger.log')
+    if test_log.exists():
+        test_log.unlink()
+
+    logger = log.cli_or_file_logger('test_file', verbose=False, log_path=test_log)
+    assert logger.name == 'test_file'
+    assert test_log.exists()
+
+    # Cleanup
+    test_log.unlink()
