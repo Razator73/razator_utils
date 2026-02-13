@@ -1,4 +1,6 @@
+import contextlib
 import logging
+import sys
 import time
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -56,3 +58,32 @@ def cli_or_file_logger(script_name, verbose=True, log_path=None, level=logging.W
         log_path = log_path or Path.home() / 'logs' / f'{script_name}.log'
         log_path.parent.mkdir(exist_ok=True, parents=True)
         return get_file_logger(script_name, log_path, level)
+
+
+class RedirectToLogger:
+    def __init__(self, logger, level="INFO"):
+        self.logger = logger
+        self.level = getattr(self.logger, level.lower())
+        self.original_stdout = sys.stdout
+
+    def write(self, buf):
+        for line in buf.rstrip().splitlines():
+            self.level(line.rstrip())
+
+    def flush(self):
+        pass
+
+    @contextlib.contextmanager
+    def redirect(self):
+        sys.stdout = self
+        try:
+            yield
+        finally:
+            sys.stdout = self.original_stdout
+
+
+def redirect_stdout_to_logger(logger, level="INFO"):
+    """
+    Context manager to redirect stdout to a logger.
+    """
+    return RedirectToLogger(logger, level).redirect()
