@@ -135,3 +135,19 @@ def test_cli_or_file_logger():
 
     # Cleanup
     test_log.unlink()
+
+
+def test_redirect_stdout_to_logger():
+    import logging
+    from unittest.mock import MagicMock
+    from razator_utils.log import redirect_stdout_to_logger
+
+    mock_logger = MagicMock(spec=logging.Logger)
+    mock_logger.info = MagicMock()
+
+    with redirect_stdout_to_logger(mock_logger, level="INFO"):
+        print("Test message 1")
+        print("Test message 2")
+
+    mock_logger.info.assert_any_call("Test message 1")
+    mock_logger.info.assert_any_call("Test message 2")

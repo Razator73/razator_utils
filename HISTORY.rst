@@ -2,6 +2,12 @@
 History
 =======
 
+0.6.0 (2026-02-13)
+------------------
+
+* Added ``redirect_stdout_to_logger`` context manager.
+
+
 0.5.0 (2026-02-12)
 ------------------
 
